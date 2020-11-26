@@ -1,0 +1,5 @@
+java.lang: 说明，Java基础类（类加载，Class等）、反射、字符串、线程类；
+
+java.nio: 多路的、物阻塞的i/o；
+
+java.util: 集合，JUC（Atomic, Lock, concurrent）、Stream(函数式操作)、工具类;
