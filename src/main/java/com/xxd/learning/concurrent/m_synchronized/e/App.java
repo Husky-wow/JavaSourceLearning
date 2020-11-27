@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.m_synchronized.e;
+package com.xxd.learning.concurrent.m_synchronized.e;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

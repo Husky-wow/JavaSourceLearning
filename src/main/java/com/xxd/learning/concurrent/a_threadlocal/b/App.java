@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.a_threadlocal.b;
+package com.xxd.learning.concurrent.a_threadlocal.b;
 
 import java.io.IOException;
 

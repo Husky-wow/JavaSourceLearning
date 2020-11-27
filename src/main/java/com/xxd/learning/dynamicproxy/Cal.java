@@ -1,4 +1,4 @@
-package com.xxd.jdksource.dynamicproxy;
+package com.xxd.learning.dynamicproxy;
 
 /**
  * @author xuxiaoding
@@ -17,10 +17,33 @@ public class Cal {
         return a + b;
     }
 
+    public int reduce(int a, int b) {
+        return a -b;
+    }
+
+    public int multi(int a, int b) {
+        return a * b;
+    }
+
+    public int div(int a, int b) {
+        return a / b;
+    }
+
+}
 
 
+class CalTest {
 
+    public static void main(String[] args) {
+        int a = 3;
+        int b = 1;
 
+        Cal cal = new Cal();
+        cal.add(a, b);
+        cal.reduce(a, b);
+        cal.reduce(a, b);
+        cal.div(a, b);
+    }
 
 
 }
