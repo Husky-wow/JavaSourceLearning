@@ -43,6 +43,9 @@ class CalTest {
         cal.reduce(a, b);
         cal.reduce(a, b);
         cal.div(a, b);
+
+        int c = 0 % 15;
+        System.out.print(c);
     }
 
 

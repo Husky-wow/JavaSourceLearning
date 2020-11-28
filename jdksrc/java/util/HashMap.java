@@ -318,6 +318,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     /* ---------------- Static utilities -------------- */
 
     /**
+     * 计算 key 的 hash 值
      * Computes key.hashCode() and spreads (XORs) higher bits of hash
      * to lower.  Because the table uses power-of-two masking, sets of
      * hashes that vary only in bits above the current mask will
@@ -335,6 +336,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      */
     static final int hash(Object key) {
         int h;
+        // hashCode是Object类的方法（一般重写tostring方法会让你重写这个方法）
+        // 在HashMap容器中，hash值 == key.hashCode()的前16位 异或 key.hashCode()的后16位
+        //  （主要是防止hash冲突，多个key的hash值一样）
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
@@ -614,35 +618,54 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     /**
      * Implements Map.put and related methods
      *
-     * @param hash hash for key
-     * @param key the key
-     * @param value the value to put
-     * @param onlyIfAbsent if true, don't change existing value
-     * @param evict if false, the table is in creation mode.
+     * @param hash hash for key, key的哈希值（调用hash()方法）
+     * @param key the key, 键
+     * @param value the value to put， 值
+     * @param onlyIfAbsent if true, don't change existing value， 设为true，如果容器中有这个key值就不进行修改
+     * @param evict if false, the table is in creation mode. 为 false时，表示容器正处于创建（其它map传入初始化
      * @return previous value, or null if none
      */
     final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
+        // table指向对象的 table 数组（又被成为 hash桶数组），p 指向某个hash桶
         Node<K,V>[] tab; Node<K,V> p; int n, i;
+        // 如果容器为空，则需要调用resize方法，初始化table数组；
+        // 这其实是HashMap的一种懒加载策略，只有当调用put方法是才检测 table 是否要初始化；
         if ((tab = table) == null || (n = tab.length) == 0)
             n = (tab = resize()).length;
+        /**
+         * 将 p 指向桶数组
+         * 因为 hash() 方法获取的 hash 值太长，无法直接作为 table 数组下标，因此需要将 hash 值转换为数组下标；
+         * 如果是我，应该会采用hash值对table数组长度求余的做法，但是源码没有这样做
+         * 源码是table表长度-1在和hash值于操作得到下标，其原因可参考：https://zhuanlan.zhihu.com/p/127147909
+         */
         if ((p = tab[i = (n - 1) & hash]) == null)
+            // (n - 1) & hash求出hash对应的table数组下标，如果这个位置为空，说明这个桶为空 ，直接放入table中，不需要生成链表、红黑树等
             tab[i] = newNode(hash, key, value, null);
         else {
+            // 如果p不为空，找到key对应的节点位置
             Node<K,V> e; K k;
             if (p.hash == hash &&
-                ((k = p.key) == key || (key != null && key.equals(k))))
+                ((k = p.key) == key || (key != null && key.equals(k)))) {
+                // 如果当前p指向桶第一个元素就是key
                 e = p;
+            }
             else if (p instanceof TreeNode)
+                // 如果p指向的内容（hash桶对应的第一个元素）是红黑树的对象，说明该桶已转换为红黑树，调用putTreeVal插入
                 e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
             else {
+                // 否则桶内实现是链表，只能遍历链表查找key
                 for (int binCount = 0; ; ++binCount) {
+                    // p.next == null，即链表的尾端
                     if ((e = p.next) == null) {
+                        // 链表尾端插入新元素
                         p.next = newNode(hash, key, value, null);
+                        // 如果该桶的元素超过了 TREEIFY_THRESHOLD，需要进行扩容或者转成红黑树
                         if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
                             treeifyBin(tab, hash);
                         break;
                     }
+                    // 找到相同key，退出循环
                     if (e.hash == hash &&
                         ((k = e.key) == key || (key != null && key.equals(k))))
                         break;
@@ -650,7 +673,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 }
             }
             if (e != null) { // existing mapping for key
+                //找到了key对应的位置，再赋value
                 V oldValue = e.value;
+                // 是否更新
                 if (!onlyIfAbsent || oldValue == null)
                     e.value = value;
                 afterNodeAccess(e);
@@ -658,6 +683,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             }
         }
         ++modCount;
+        // 是否需要扩容
         if (++size > threshold)
             resize();
         afterNodeInsertion(evict);
@@ -665,6 +691,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
+     * 初始化或扩容table数组
      * Initializes or doubles table size.  If null, allocates in
      * accord with initial capacity target held in field threshold.
      * Otherwise, because we are using power-of-two expansion, the
@@ -674,10 +701,12 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * @return the table
      */
     final Node<K,V>[] resize() {
+        // 记录扩容前状态
         Node<K,V>[] oldTab = table;
         int oldCap = (oldTab == null) ? 0 : oldTab.length;
         int oldThr = threshold;
         int newCap, newThr = 0;
+        // 如果 oldCap > 0 说明不是初始化
         if (oldCap > 0) {
             if (oldCap >= MAXIMUM_CAPACITY) {
                 threshold = Integer.MAX_VALUE;
@@ -685,33 +714,55 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             }
             else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                      oldCap >= DEFAULT_INITIAL_CAPACITY)
+                // 扩容2倍后，容量阈值也要扩容2倍
                 newThr = oldThr << 1; // double threshold
         }
         else if (oldThr > 0) // initial capacity was placed in threshold
+            // 根据前面判断知oldCap <= 0，此时是调用了HashMap的带参构造器，初始容量用threshold替换，
+            //在带参构造器中，threshold的值为 tableSizeFor() 的返回值，也就是2的幂，而不是 capacity * load factor
             newCap = oldThr;
-        else {               // zero initial threshold signifies using defaults
+        else {
+            // 根据前面两个判断，oldCap <= 0 且 oldThr > 0，即调用了默认构造器
+            // 此时容器容量 newCap 赋值默认初始化容量，
+            // 容器最大存放数量newThr 赋值 默认负载因子 * 默认初始化容量// zero initial threshold signifies using defaults
             newCap = DEFAULT_INITIAL_CAPACITY;
             newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
         }
         if (newThr == 0) {
+            //重新计算阈值
             float ft = (float)newCap * loadFactor;
             newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
                       (int)ft : Integer.MAX_VALUE);
         }
+        // 更新当前容器可存放的最大数量
         threshold = newThr;
         @SuppressWarnings({"rawtypes","unchecked"})
+        // 创建新的 table数组（hash桶数组）
             Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
         table = newTab;
         if (oldTab != null) {
+            //将oldTab中的所有key-value复制到newTab，遍历oldTab数组（hash桶数组）
             for (int j = 0; j < oldCap; ++j) {
                 Node<K,V> e;
+                //当前hash桶不为空才有遍历的必要
                 if ((e = oldTab[j]) != null) {
                     oldTab[j] = null;
                     if (e.next == null)
+                        // 如果该hash桶中国只有一个元素，直接复制
                         newTab[e.hash & (newCap - 1)] = e;
                     else if (e instanceof TreeNode)
+                        // 如果该hash桶是红黑树实现，调用split方法复制
                         ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
                     else { // preserve order
+                        // 否则该hash桶是链表实现，需要遍历链表
+                        // 将源链表拆分根据成两个链表，原链表中的所有节点(Node.hash % oldCap) == 0
+                        // loHead、loTail指向第一个链表的头、尾，链表中的(Node.hash & oldCap) == 0
+                        // hiHead、hiTail指向第二个链表的头、尾，链表中的(Node.hash & oldCap) ！= 0
+
+                        // 比如 oldCap = 16时，hash = 13，29，45，61在oldTab[13]这个桶下
+                        // newCap = 2 * oldCap = 32，需要拆分成newTab[13]、newTab[13 + oldCap = 29]两个桶
+                        // newTab[12] = [13, 45],  hash % newCap = hash % 32 = 13
+                        // newTab[12 + oldCap = 28] = [29, 61], hash % newCap = hash % 32 = 28
                         Node<K,V> loHead = null, loTail = null;
                         Node<K,V> hiHead = null, hiTail = null;
                         Node<K,V> next;
