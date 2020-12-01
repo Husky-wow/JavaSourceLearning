@@ -8,7 +8,10 @@ package com.xxd.learning.singleton;
  */
 public class Singleton {
 
-    private static Singleton instance;
+    /**
+     * volatile 防止指令重排，此处要注意和synchronize的有序性区别
+     */
+    private static volatile Singleton instance;
 
     private Singleton() {}
 
