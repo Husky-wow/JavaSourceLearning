@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.b_supplement.c;
+package com.xxd.learning.concurrent.b_supplement.c;
 
 /**
  * @author gao
@@ -6,7 +6,7 @@ package com.xxd.jdksource.concurrent.b_supplement.c;
  */
 
 /*
-使用interrupted停止一个线程
+使用interrupt停止一个线程
  */
 public class App {
     // 略

@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.b_supplement.d;
+package com.xxd.learning.concurrent.b_supplement.d;
 
 /**
  * @author gao
@@ -24,8 +24,8 @@ public class App {
         th.start();
         Thread.sleep(100);
         th.interrupt();
-        System.out.println("1.是否停止 = " + th.interrupted());
-        System.out.println("2.是否停止 = " + th.interrupted());
+        System.out.println("1.是否停止 = " + Thread.interrupted());
+        System.out.println("2.是否停止 = " + Thread.interrupted());
         System.out.println("3.是否停止 = " + th.isInterrupted());
         System.out.println("4.是否停止 = " + th.isInterrupted());
     }

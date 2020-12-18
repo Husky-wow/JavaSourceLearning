@@ -30,7 +30,7 @@ package com.xxd.jdksource.concurrent.p_hash.h;
     HashMap中，也不会引起任何一次的扩容!
 
     所以，在确定HashMap容量的公式中，+1的意义在于，在确定键值对数量的
-    掐你下，减少HashMap扩容的几率！
+    情况下，减少HashMap扩容的几率！
 
  */
 public class App {

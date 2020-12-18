@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.b_supplement.e;
+package com.xxd.learning.concurrent.b_supplement.e;
 
 /**
  * @author gao

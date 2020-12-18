@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.b_supplement.f;
+package com.xxd.learning.concurrent.b_supplement.f;
 
 /**
  * @author gao
@@ -12,7 +12,7 @@ class T implements Runnable {
         long start = System.currentTimeMillis();
         int count = 0;
         for (int i = 0; i < 50000000; i++) {
-            // Thread.yield();
+            Thread.yield();
             count = count + (i + 1);
         }
         long end = System.currentTimeMillis();
