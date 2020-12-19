@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.i_countdownlatch.a;
+package com.xxd.learning.concurrent.i_countdownlatch.a;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;

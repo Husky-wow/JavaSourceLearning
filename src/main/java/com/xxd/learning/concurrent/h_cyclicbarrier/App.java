@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.h_cyclicbarrier;
+package com.xxd.learning.concurrent.h_cyclicbarrier;
 
 import java.util.Random;
 import java.util.concurrent.CyclicBarrier;
@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 class T implements Runnable {
 
+	// new CyclicBarrier() 中传入的Runnable等到计数到达前边传的3的时候，就运行Runnable中的run方法；
 	private CyclicBarrier cb = new CyclicBarrier(3, new Runnable() {
 		int count = 0;
 		@Override
