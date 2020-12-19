@@ -1,10 +1,11 @@
-package com.xxd.jdksource.concurrent.g_semaphore.a;
+package com.xxd.learning.concurrent.g_semaphore.a;
 
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 class T implements Runnable {
+	// Semaphore可以控制访问特定资源的线程数量
 	private Semaphore s = new Semaphore(2);
 
 	@Override

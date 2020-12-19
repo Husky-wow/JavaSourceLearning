@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.g_semaphore.c;
+package com.xxd.learning.concurrent.g_semaphore.c;
 
 import java.util.ArrayList;
 import java.util.Arrays;

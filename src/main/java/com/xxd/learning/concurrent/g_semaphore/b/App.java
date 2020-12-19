@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.g_semaphore.b;
+package com.xxd.learning.concurrent.g_semaphore.b;
 
 import java.util.concurrent.TimeUnit;
 
