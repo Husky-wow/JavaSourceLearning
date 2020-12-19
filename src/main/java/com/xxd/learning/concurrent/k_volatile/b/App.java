@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.k_volatile.b;
+package com.xxd.learning.concurrent.k_volatile.b;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.k_volatile.a;
+package com.xxd.learning.concurrent.k_volatile.a;
 
 import java.util.concurrent.TimeUnit;
 
