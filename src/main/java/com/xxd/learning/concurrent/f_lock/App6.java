@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.f_lock;
+package com.xxd.learning.concurrent.f_lock;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;

@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.e_callable;
+package com.xxd.learning.concurrent.e_callable;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -22,6 +22,7 @@ public class App {
 
 		try {
 			System.out.println("等待结果");
+			// get()是一个阻塞方法
 			String str = future.get();
 
 			System.out.println(str);
