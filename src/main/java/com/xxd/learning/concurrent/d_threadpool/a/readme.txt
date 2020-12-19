@@ -3,17 +3,22 @@ Java中的线程池的创建其实非常灵活，我们可以通过配置不同�
 这几个参数包括：
 1. corePoolSize：线程池的核心线程数
 2. maximumPoolSize：线程池允许的最大线程数
-3. keepAliveTime：超过核心线程数时，闲置线程的存货时间
+3. keepAliveTime：线程数量超过核心线程数时，闲置线程的存货时间
 4. workQueue：任务执行前保存任务的队列，保存由execute方法提交的Runnable任务
 
 设问：线程池中的线程时怎么创建的？是一开始就随着线程池的启动创建好的吗？
-显然不是的。线程池默认初始化后，不会启动任何线程，直到有任务提交到该线程池时才会启动！
+解答：     显然不是的。线程池默认初始化后，不会启动任何线程，直到有任务提交到该线程池时才会启动！
 
 每当我们调用execute()方法添加一个任务时，线程池会做如下判断：
-1. 如果正在运行的线程数小于corePoolSize，那么马上创建线程运行这个任务
-2. 如果正在运行的线程数大于或等于corePoolSize，那么将这个任务放入队列
-3. 如果这时候队列满了，而且正在运行的线程数小于maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务
-4. 如果队列满了，而且正在运行的线程数大于或等于maximumPoolSize，那么线程池会抛出异常：RejectExecutionException
+1. 如果正在运行的线程数小于corePoolSize，那么马上创建线程运行这个任务；
+2. 如果正在运行的线程数大于或等于corePoolSize，那么将这个任务放入队列；
+3. 如果这时候队列满了，而且正在运行的线程数小于maximumPoolSize，那么还是要创建非核心线程立刻运行这个任务；
+4. 如果队列满了，而且正在运行的线程数大于或等于maximumPoolSize，那么线程池会执行决绝策略；
+线程池有四种拒绝策略：
+1. AbortPolicy:丢弃任务并抛出RejectedExecutionException异常(默认策略)；
+2. DiscardPolicy：丢弃任务，但是不抛出异常；
+3. DiscardOldestPolicy：丢弃队列最前面的任务，然后重新提交被拒绝的任务；
+4. CallerRunsPolicy：由调用线程（提交任务的线程）处理该任务;
 
 Java中默认实现好的线程池：
 1. SingleThreadExecutor
@@ -24,7 +29,7 @@ Java中默认实现好的线程池：
 	corePoolSize：1，只有一个核心线程在工作
 	maximumfPoolSize：1
 	keepAliveTime：0L
-	workQueue：缓冲队列是无界的
+	workQueue：缓冲队列是无界的（int的最大值）
 
 2. FixedThreadPool
 	这个线程池是一个固定了线程数的线程池，只有核心线程。每次提交一个任务就创建一个线程，

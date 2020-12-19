@@ -1,9 +1,6 @@
-package com.xxd.jdksource.concurrent.d_threadpool.a;
+package com.xxd.learning.concurrent.d_threadpool.a;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import sun.nio.ch.ThreadPool;
 
