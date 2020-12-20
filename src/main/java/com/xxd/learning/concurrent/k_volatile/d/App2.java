@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.k_volatile.d;
+package com.xxd.learning.concurrent.k_volatile.d;
 
 import java.util.concurrent.CountDownLatch;
 

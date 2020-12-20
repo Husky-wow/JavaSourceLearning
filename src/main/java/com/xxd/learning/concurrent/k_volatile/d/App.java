@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.k_volatile.d;
+package com.xxd.learning.concurrent.k_volatile.d;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -23,8 +23,7 @@ public class App {
     // 两个线程，是以缓存行为最小共享单位的，如图，任何一个线程修改了自己缓存中
     // 缓存行的数据时，都会“通知“其他也使用该缓存行的线程。
 
-    // 所以，这2个线程明明没有真正意义上的共享对象，却不停地通过刷新主存来获取
-    // 最新的缓存行的值。这样效率很低。
+    // 所以，这2个线程明明没有真正意义上的共享对象，却不停地通过刷新主存来获取最新的缓存行的值。这样效率很低。
     public static Foo[] arr = new Foo[2];
 
     static {

@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.m_synchronized.b;
+package com.xxd.learning.concurrent.m_synchronized.b;
 
 import org.openjdk.jol.info.ClassLayout;
 

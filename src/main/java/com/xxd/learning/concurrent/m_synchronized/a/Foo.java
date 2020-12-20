@@ -1,4 +1,4 @@
-package com.xxd.jdksource.concurrent.m_synchronized.a;
+package com.xxd.learning.concurrent.m_synchronized.a;
 
 /**
  * @author gao

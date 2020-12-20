@@ -13,7 +13,8 @@ public class App2 {
 		public void serve() {
 			// synchronized (this) {
 			try {
-				lock.lockInterruptibly(); // 必须使用lockInterruptibly方法，如果使用lock方法，则效果与synchronized一样
+				// 必须使用lockInterruptibly方法，如果使用lock方法，则效果与synchronized一样
+				lock.lockInterruptibly();
 				System.out.println(Thread.currentThread().getName() + "获得锁");
 				System.out.println(Thread.currentThread().getName() + "开始执行任务....");
 				long startTime = System.currentTimeMillis();
