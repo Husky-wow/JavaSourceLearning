@@ -10,6 +10,13 @@ public class App {
 
 	/* synchronized */ void f1() {
 		for (int i = 1; i <= 1000; i++) {
+			/*
+			这段代码在汇编层面是3句话：
+				1. 取出 count；
+				2. +1；
+				3. 放回去
+			所以要是10000，必须保证原子性
+			 */
 			count++;
 		}
 	}
@@ -19,11 +26,7 @@ public class App {
 
 		List<Thread> list = new ArrayList<>();
 		for(int i = 1; i <= 10; i++) {
-			Thread th = new Thread(new Runnable() {
-				public void run() {
-					app.f1();
-				}
-			});
+			Thread th = new Thread(app::f1);
 			list.add(th);
 		}
 
@@ -37,7 +40,7 @@ public class App {
 				e.printStackTrace();
 			}
 		}
-
+		// 如果volatile保证原子性，那么结果将会是10000
 		System.out.println(app.count);
 
 	}
