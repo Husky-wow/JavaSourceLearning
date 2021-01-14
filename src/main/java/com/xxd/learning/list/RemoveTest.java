@@ -1,6 +1,7 @@
 package com.xxd.learning.list;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -11,24 +12,30 @@ import java.util.List;
  */
 public class RemoveTest {
     public static void main(String[] args) {
-        List<String> list= new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        System.out.println("list = " + list);
-        for (String i:list) {
-            if (i=="2") {
-                list.remove(i);
-            }
-            System.out.println(i);
-        }
+        // List<String> list= new ArrayList<>();
+        // list.add("1");
+        // list.add("2");
+        // list.add("3");
         // System.out.println("list = " + list);
-        // java.util.Iterator<String> it = list.iterator();
+        // // for (String s :list) {
+        // //     if (s =="1") {
+        // //         list.remove(s);
+        // //     }
+        // //     System.out.println(s);
+        // // }
+        // // System.out.println("list = " + list);
+        //
+        // Iterator<String> it = list.iterator();
         // while (it.hasNext()){
-        //     if (it.next()=="1"){
-        //         list.remove(it.next());
+        //     String next = it.next();
+        //     if (next =="1"){
+        //         list.remove(next);
         //     }
         // }
         // System.out.println("list = " + list);
+
+        // int a;
+        // Integer b;
+        // System.out.println(a + b);
     }
 }
